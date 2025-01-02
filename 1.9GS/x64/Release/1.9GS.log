@@ -1,0 +1,13 @@
+﻿  dllmain.cpp
+C:\Users\alani\source\repos\1.9GS\1.9GS\SDK\SDK\Engine_classes.hpp(596,70): warning C4099: 'SDK::FVector': type name first seen using 'struct' now seen using 'class'
+C:\Users\alani\source\repos\1.9GS\1.9GS\Helpers.h(28,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\alani\source\repos\1.9GS\1.9GS\Helpers.h(29,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\alani\source\repos\1.9GS\1.9GS\Helpers.h(30,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\alani\source\repos\1.9GS\1.9GS\Helpers.h(31,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+LINK : warning LNK4098: defaultlib 'LIBCMTD' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Generating code
+  3 of 483 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  1.9GS.vcxproj -> C:\Users\alani\source\repos\1.9GS\x64\Release\1.9GS.dll
