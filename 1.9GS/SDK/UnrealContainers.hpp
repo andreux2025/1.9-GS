@@ -58,6 +58,10 @@ namespace UC
 		using TMapIterator = TContainerIterator<TMap<KeyElementType, ValueElementType>>;
 	}
 
+	namespace FMemory
+	{
+		static inline void* (*Realloc)(void*, __int64, unsigned int) = decltype(Realloc)(__int64(GetModuleHandleW(0)) + 0x12b9000);
+	}
 
 	namespace ContainerImpl
 	{
@@ -302,6 +306,11 @@ namespace UC
 				memset(Data, 0, NumElements * ElementSize);
 		}
 
+		void Reserve(int Number, int Size = sizeof(ArrayElementType))
+		{
+			Data = (ArrayElementType*)FMemory::Realloc(Data, (MaxElements = NumElements + Number) * Size, 0);
+		}
+
 	public:
 		inline int32 Num() const { return NumElements; }
 		inline int32 Max() const { return MaxElements; }
@@ -535,6 +544,19 @@ namespace UC
 		inline bool IsValidIndex(int32 Index) const { return Elements.IsValidIndex(Index); }
 
 		inline bool IsValid() const { return Elements.IsValid(); }
+
+		template<typename ElementType, typename KeyType>
+		ElementType* FindByKey(TArray<ElementType>& Array, const KeyType& Key)
+		{
+			for (ElementType& Element : Array)
+			{
+				if (Element.GetKey() == Key) // Assuming your element has a GetKey() method
+				{
+					return &Element;
+				}
+			}
+			return nullptr;
+		}
 
 	public:
 		const ContainerImpl::FBitArray& GetAllocationFlags() const { return Elements.GetAllocationFlags(); }
@@ -773,4 +795,35 @@ namespace UC
 	static_assert(sizeof(TArray<int32>) == 0x10, "TArray has a wrong size!");
 	static_assert(sizeof(TSet<int32>) == 0x50, "TSet has a wrong size!");
 	static_assert(sizeof(TMap<int32, int32>) == 0x50, "TMap has a wrong size!");
+
+	template <class ObjectType>
+	class TSharedPtr
+	{
+	public:
+		ObjectType* Object;
+
+		int32 SharedReferenceCount;
+		int32 WeakReferenceCount;
+
+		FORCEINLINE ObjectType* Get()
+		{
+			return Object;
+		}
+		FORCEINLINE ObjectType* Get() const
+		{
+			return Object;
+		}
+		FORCEINLINE ObjectType& operator*()
+		{
+			return *Object;
+		}
+		FORCEINLINE const ObjectType& operator*() const
+		{
+			return *Object;
+		}
+		FORCEINLINE ObjectType* operator->()
+		{
+			return Object;
+		}
+	};
 }

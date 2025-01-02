@@ -10,8 +10,8 @@ namespace SDK
 		NetViewer.Connection = InConnection;
 		NetViewer.InViewer = InConnection->PlayerController ? InConnection->PlayerController : InConnection->OwningActor;
 		NetViewer.ViewTarget = InConnection->ViewTarget;
-		//NetViewer.ViewLocation = InConnection->ViewTarget->K2_GetActorLocation();
-		//NetViewer.ViewDir = InConnection->ViewTarget->K2_GetActorLocation();
+		NetViewer.ViewLocation = InConnection->ViewTarget->K2_GetActorLocation();
+		NetViewer.ViewDir = InConnection->ViewTarget->K2_GetActorLocation();
 		return NetViewer;
 	}
 
@@ -79,5 +79,26 @@ namespace SDK
 			, OptimalNetUpdateDelta(0.0f)
 			, LastNetUpdateTime(0.0f)
 			, bPendingNetUpdate(false) {}
+	};
+
+	class FNetworkObjectList
+	{
+	public:
+		typedef TSet<TSharedPtr<FNetworkObjectInfo>> FNetworkObjectSet;
+
+		/** Returns a const reference to the entire set of tracked actors. */
+		const FNetworkObjectSet& GetAllObjects() const { return AllNetworkObjects; }
+
+		/** Returns a const reference to the active set of tracked actors. */
+		const FNetworkObjectSet& GetActiveObjects() const { return ActiveNetworkObjects; }
+
+		/** Returns a const reference to the entire set of dormant actors. */
+		const FNetworkObjectSet& GetDormantObjectsOnAllConnections() const { return ObjectsDormantOnAllConnections; }
+
+	public:
+		FNetworkObjectSet AllNetworkObjects;
+		FNetworkObjectSet ActiveNetworkObjects;
+		FNetworkObjectSet ObjectsDormantOnAllConnections;
+		TMap<TWeakObjectPtr<UNetConnection>, int32 > NumDormantObjectsPerConnection;
 	};
 }

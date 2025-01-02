@@ -14603,6 +14603,12 @@ public:
 		return ReplicationFrame;
 	}
 
+	class FNetworkObjectList& GetNetworkObjectList()
+	{
+		//int32 NetworkObjects = (int32*)(__int64(this) + 0x3F8);
+		return *(*(TSharedPtr<class FNetworkObjectList>*)(int32*)(__int64(this) + 0x3F8));
+	}
+
 	static class UClass* StaticClass()
 	{
 		return StaticClassImpl<"NetDriver">();

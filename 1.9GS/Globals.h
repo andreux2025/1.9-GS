@@ -3,8 +3,8 @@
 
 namespace Globals
 {
-	float Duration = 9999.0f;
-	float EarlyDuration = 9999.0f;
+	float Duration = 130.0f;
+	float EarlyDuration = 130.0f;
 	bool bStartServer = false;
 
 	static UGameplayStatics* GameplayStatics()

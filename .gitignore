@@ -32,3 +32,4 @@
 *.app
 *.vsidx
 /.vs
+/x64
