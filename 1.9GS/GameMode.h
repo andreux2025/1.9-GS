@@ -44,7 +44,7 @@ namespace GameMode
 		if (!Globals::bStartServer)
 			Network::StartServer();
 
-		if (GameState->MapInfo)
+		if (!GameState->MapInfo)
 		{
 			return false;
 		}
