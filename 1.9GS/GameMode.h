@@ -13,20 +13,42 @@ namespace GameMode
 		Transform.Translation = StartSpot->K2_GetActorLocation();
 		return GameMode->SpawnDefaultPawnAtTransform(NewPlayer, Transform);
 	}
-
+	//CurrentPlaylistData
 	bool ReadyToStartMatch(AFortGameModeAthena* GameMode)
 	{
 		AFortGameStateAthena* GameState = (AFortGameStateAthena*)GameMode->GameState;
+		//EFortAthenaPlaylist
+		//	EFortAthenaPlaylist* Playlist = Globals::StaticLoadObject<UFortPlaylistAthena>("/Game/Athena/Playlists/Playlist_DefaultSolo.Playlist_DefaultSolo");
+
+		//GameState->playlist = Playlist;
+		GameState->CurrentPlaylistId;
+		GameState->OnRep_CurrentPlaylistId();
 		float TimeSeconds = Globals::GameplayStatics()->GetTimeSeconds(UWorld::GetWorld());
 		GameMode->bWorldIsReady = true;
 		GameState->WarmupCountdownEndTime = TimeSeconds + Globals::Duration;
 		GameMode->WarmupCountdownDuration = Globals::Duration;
 		GameState->WarmupCountdownStartTime = TimeSeconds;
 		GameMode->WarmupEarlyCountdownDuration = Globals::EarlyDuration;
+		GameMode->bDisableGCOnServerDuringMatch = true;
+		GameMode->bAllowSpectateAfterDeath = true;
+		GameMode->bAlwaysDBNO = false;
+		GameMode->bUseRandomTimeOfDay = true;
+		GameMode->MinRespawnDelay = 5.0f;
+		GameState->PlayersLeft--;
+		//	GameState->OnRep_Teams();
+		GameMode->bWorldIsReady = true;
+		GameState->GamePhase = EAthenaGamePhase::Warmup;
+		GameState->OnRep_GamePhase(EAthenaGamePhase::Aircraft);
 		GameState->GamePhase = EAthenaGamePhase::Warmup;
 		GameState->OnRep_GamePhase(EAthenaGamePhase::Aircraft);
 		if (!Globals::bStartServer)
 			Network::StartServer();
+
+		if (GameState->MapInfo)
+		{
+			return false;
+		}
+
 		Globals::bStartServer = true;
 		return true;
 	}
